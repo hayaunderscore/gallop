@@ -8,6 +8,7 @@
 namespace gallop {
 std::shared_ptr<spdlog::logger> logger;
 std::shared_ptr<gui::imgui_sink_mt> sink;
+std::filesystem::path path;
 
 void attach()
 {
@@ -22,12 +23,12 @@ void attach()
 
 	// Initialize config
 	init_config();
-
 	il2cpp::init();
+	init_mdb();
 
 	std::thread(gui::run).detach();
 }
-void detach() {}
+void detach() { deinit_mdb(); }
 } // namespace gallop
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
@@ -36,6 +37,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 	const std::filesystem::path module_path(std::wstring(buffer, GetModuleFileName(nullptr, buffer, MAX_PATH)));
 	if (module_path.filename() == L"umamusume.exe" || module_path.filename() == L"UmamusumePrettyDerby_Jpn.exe") {
 		current_path(module_path.parent_path());
+		gallop::path = module_path.parent_path();
 
 		if (ul_reason_for_call == DLL_PROCESS_ATTACH)
 			std::thread(gallop::attach).detach();

@@ -29,6 +29,12 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 CPMAddPackage("gh:nlohmann/json@3.12.0")
 CPMAddPackage("gh:cursey/safetyhook@0.6.9")
 CPMAddPackage("gh:gabime/spdlog@1.16.0")
+CPMAddPackage(
+    NAME SQLite3MultipleCiphers
+    GITHUB_REPOSITORY utelle/SQLite3MultipleCiphers
+    GIT_TAG main
+    OPTIONS "SQLITE3MC_STATIC ON; SQLITE3MC_STATIC_RUNTIME_LINK ON"
+)
 # OpenGL manages the GUI portion
 find_package(OpenGL REQUIRED)
 
@@ -39,4 +45,4 @@ add_library(gallop SHARED)
 
 add_subdirectory(thirdparty)
 add_subdirectory(src)
-target_link_libraries(gallop PRIVATE -static -ldwmapi OpenGL::GL nlohmann_json::nlohmann_json safetyhook::safetyhook spdlog::spdlog)
+target_link_libraries(gallop PRIVATE -static -ldwmapi OpenGL::GL nlohmann_json::nlohmann_json safetyhook::safetyhook spdlog::spdlog sqlite3mc::sqlite3mc_static)

@@ -7,6 +7,7 @@ target_sources(
     hook.cpp
     imgui_sink.cpp
     config.cpp
+    mdb.cpp
 
     # Hooks
     hooks/models.cpp

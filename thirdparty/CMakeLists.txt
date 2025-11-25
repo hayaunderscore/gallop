@@ -16,3 +16,6 @@ target_include_directories(gallop PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/imgui")
 
 # aetherim (il2cpp library)
 target_include_directories(gallop PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/aetherim")
+
+# sqlite_modern_cpp
+target_include_directories(gallop PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/sqlite_modern_cpp")

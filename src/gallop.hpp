@@ -4,6 +4,8 @@
 #include "nlohmann/json.hpp"
 #include "safetyhook.hpp"
 #include "spdlog/spdlog.h"
+#include "sqlite3mc.h"
+#include <sqlite_modern_cpp.h>
 #include <stdbool.h>
 #include <string>
 #include <unordered_map>
@@ -21,6 +23,8 @@ namespace gallop {
 void attach();
 // runs when gallop is detached
 void detach();
+
+extern std::filesystem::path path;
 
 // sink and logger
 extern std::shared_ptr<spdlog::logger> logger;
@@ -51,6 +55,12 @@ int update();
 int destroy();
 int run(); // Runs init+update+destroy together in one loop
 } // namespace gui
+
+// database handling (master.mdb and meta)
+extern sqlite::database master;
+extern sqlite::database meta;
+int init_mdb();
+void deinit_mdb();
 
 // IL2CPP handling
 namespace il2cpp {
