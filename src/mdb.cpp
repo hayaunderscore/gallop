@@ -63,9 +63,8 @@ int init_mdb()
 		return 1;
 	}
 
-	spdlog::info("[mdb] Initialized successfully!");
-
 	// Test if it works
+	spdlog::info("[mdb] Testing master.mdb");
 	try {
 		std::string cipher;
 		master << "SELECT id FROM dress_data";
@@ -73,6 +72,16 @@ int init_mdb()
 		spdlog::error("[mdb] master.mdb could not be tested! {}", e.what());
 		return 1;
 	}
+
+	spdlog::info("[mdb] Testing meta");
+	try {
+		meta << "SELECT CAST(n AS TEXT) FROM a WHERE n LIKE '3d/chara/body/bdy0002_00/pfb_bdy%'";
+	} catch (const std::exception& e) {
+		spdlog::error("[mdb] meta could not be tested! {}", e.what());
+		return 1;
+	}
+
+	spdlog::info("[mdb] Initialized successfully!");
 
 	return 0;
 }
