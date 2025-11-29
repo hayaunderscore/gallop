@@ -245,6 +245,7 @@ int update_and_paint()
 			}
 			if (ImGui::BeginTabItem("Configuration")) {
 				static int newChar = 0;
+				std::vector<std::string> removed;
 #define FORMAT_GET_OR_DEFAULT(dict, i) fmt::format("{} ({})", dict.contains(i) ? dict.at(i) : "???", i).c_str()
 				if (ImGui::CollapsingHeader("Override Characters")) {
 					for (auto& item : gallop::conf.replaceCharacters) {
@@ -276,7 +277,8 @@ int update_and_paint()
 									ImGui::OpenPopup("newID");
 									break;
 								case 1:
-									gallop::conf.replaceCharacters.erase(item.first);
+									// Done later to prevent massive bad things from happening
+									removed.push_back(item.first);
 									break;
 								}
 							},
@@ -295,6 +297,8 @@ int update_and_paint()
 									(void)value;
 									item.second.charaId = key;
 								});
+							ImGui::SameLine();
+							HelpMarker("Setting this to None will disable character replacing.");
 							ImGuiComboFromDictionaryWithFilter<int, std::string>(
 								"New Dress ID", FORMAT_GET_OR_DEFAULT(id2dress, item.second.clothId), id2dress,
 								[&](int key, std::string value) { return fmt::format("{} ({})", value, key); },
@@ -312,6 +316,10 @@ int update_and_paint()
 							ImGui::Checkbox("Home Screen Only", &item.second.homeScreenOnly);
 							ImGui::TreePop();
 						}
+					}
+
+					for (const auto& tbr : removed) {
+						gallop::conf.replaceCharacters.erase(tbr);
 					}
 
 					// IMGUI_RIGHT_ALIGNED_BUTTONS("X")
@@ -339,6 +347,7 @@ int update_and_paint()
 						ImGui::EndPopup();
 					}
 				}
+			end_early:
 				ImGui::Separator();
 				if (ImGui::Button("Load Config")) {
 					gallop::init_config();
