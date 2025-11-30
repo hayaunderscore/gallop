@@ -29,9 +29,11 @@ bool ReplaceCharacterController(int& charaID, int& dressID, int& headID, UmaCont
 		replaceDress = false;
 	std::string strId = std::to_string(charaID);
 	if (gallop::conf.replaceCharacters.contains(strId)) {
-		spdlog::info("[hooks/models] Attempting to replace model for character ID {} (dress ID {})", charaID, dressID);
+		spdlog::info("[hooks/models] Attempting to replace model for character ID {} (dress ID {}, controller Type {})", charaID, dressID, (int)controllerType);
 		gallop::gallop_char_info_t charInfo = gallop::conf.replaceCharacters.at(std::to_string(charaID));
 		if (charInfo.charaId == 0)
+			return false;
+		if (charInfo.homeScreenOnly && (controllerType < UmaControllerType::HomeStand || controllerType > UmaControllerType::HomeWalk))
 			return false;
 		if (controllerType == UmaControllerType::Mini && charInfo.replaceMini) {
 			if (gallop::dress2mini.contains(dressID) && gallop::dress2mini.contains(dressID)) {

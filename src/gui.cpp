@@ -15,8 +15,8 @@
 #include <tchar.h>
 #include <windows.h>
 
-constexpr int window_width = 700;
-constexpr int window_height = 500;
+constexpr int window_width = 800;
+constexpr int window_height = 600;
 
 // Data stored per platform window
 struct WGL_WindowData {
