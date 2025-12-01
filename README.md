@@ -1,6 +1,7 @@
 <div align="center">
 
-# Trainers' Gallop U
+![logo](assets/logo.png)
+
 > A hachimi module
 
 **Trainers' Gallop U** (or libgallop) is a [Hachimi](https://hachimi.noccu.art/) module that adds some features similar to the original [Trainers' Legend G](https://github.com/MinamiChiwa/Trainers-Legend-G) to enhance the ウマ娘プリティーダービー (Umamusume: Pretty Derby) experience.
